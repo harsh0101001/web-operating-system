@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">cal
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS OS | Cyberpunk Interface</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <link rel="stylesheet" href="OS_Design.css">
+
+</head>
+<body>
+    <!-- Hologrid Background -->
+    <div class="hologrid"></div>
+    
+    <!-- Particle Effects -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <i class="fas fa-robot"></i>
+        <input type="text" id="nexus-ai-input" placeholder="Ask NEXUS AI assistant...">
+    </div>
+
+    <!-- AI Chat Window -->
+    <div class="ai-chat-window" id="ai-chat-window">
+        <div class="ai-chat-header">
+            <span>Waifu Assistant</span>
+            <div class="waifu-header-controls">
+                <button class="waifu-control-btn" id="waifu-voice-toggle" type="button" title="Toggle voice">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="waifu-control-btn" id="waifu-mic-btn" type="button" title="Speak with microphone">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <i class="fas fa-times" id="ai-chat-close"></i>
+            </div>
+        </div>
+        <div class="waifu-stage" id="waifu-stage" aria-label="Waifu expression stage">
+            <div class="waifu-avatar emotion-neutral" id="waifu-avatar">
+                <div class="waifu-hair"></div>
+                <div class="waifu-face">
+                    <div class="waifu-eyes">
+                        <span class="waifu-eye"></span>
+                        <span class="waifu-eye"></span>
+                    </div>
+                    <div class="waifu-mouth"></div>
+                </div>
+            </div>
+            <div class="waifu-expression-label" id="waifu-expression-label">neutral</div>
+        </div>
+        <div class="ai-chat-messages" id="ai-chat-messages">
+            <!-- Messages will be injected here -->
+        </div>
+        <div class="ai-chat-input-container">
+            <input type="text" id="ai-chat-input" placeholder="Type your message...">
+        </div>
+    </div>
+    
+    <!-- Desktop Icons -->
+    <div class="desktop"></div>
+    
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <div class="taskbar-apps">
+            <div class="taskbar-app active" onclick="toggleStartMenu()">
+                <i class="fas fa-compass"></i>
+            </div>
+            <div class="taskbar-app" onclick="openWindow('terminal-window')">
+                <i class="fas fa-terminal"></i>
+            </div>
+            <div class="taskbar-app" onclick="openWindow('browser-window')">
+                <i class="fas fa-globe"></i>
+            </div>
+            <div class="taskbar-app" onclick="openWindow('filemanager-window')">
+                <i class="fas fa-folder"></i>
+            </div>
+        </div>
+        <div class="clock" id="clock">22:17:35</div>
+    </div>
+    
+    <!-- Notification Container -->
+    <div class="notification-container" id="notification-container"></div>
+    
+    <!-- Terminal Window -->
+    <div class="window" id="terminal-window">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-terminal"></i>
+                <span>NEXUS Terminal</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-control window-minimize" onclick="minimizeWindow('terminal-window')">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-control window-maximize" onclick="maximizeWindow('terminal-window')">
+                    <i class="fas fa-expand"></i>
+                </div>
+                <div class="window-control window-close" onclick="closeWindow('terminal-window')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="terminal" id="terminal">
+                <div class="terminal-line">
+                    Welcome to NEXUS OS Terminal v2.1
+                </div>
+                <div class="terminal-line">
+                    Type 'help' for available commands.
+                </div>
+                <div class="terminal-line" id="terminal-input-line">
+                    <span class="terminal-prompt">user@nexus:root$</span> <span class="terminal-input"><input type="text" id="terminal-input" autofocus></span><span class="terminal-cursor"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Calculator Window -->
+    <div class="window" id="calculator-window">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-calculator"></i>
+                <span>Quantum Calculator</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-control window-minimize" onclick="minimizeWindow('calculator-window')">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-control window-maximize" onclick="maximizeWindow('calculator-window')">
+                    <i class="fas fa-expand"></i>
+                </div>
+                <div class="window-control window-close" onclick="closeWindow('calculator-window')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="calculator">
+                <div class="calculator-display" id="calc-display">0</div>
+                <div class="calculator-btn" onclick="clearCalculator()">C</div>
+                <div class="calculator-btn operator" onclick="appendToCalc('(')">(</div>
+                <div class="calculator-btn operator" onclick="appendToCalc(')')">)</div>
+                <div class="calculator-btn operator" onclick="appendToCalc('/')">/</div>
+                <div class="calculator-btn" onclick="appendToCalc('7')">7</div>
+                <div class="calculator-btn" onclick="appendToCalc('8')">8</div>
+                <div class="calculator-btn" onclick="appendToCalc('9')">9</div>
+                <div class="calculator-btn operator" onclick="appendToCalc('*')">×</div>
+                <div class="calculator-btn" onclick="appendToCalc('4')">4</div>
+                <div class="calculator-btn" onclick="appendToCalc('5')">5</div>
+                <div class="calculator-btn" onclick="appendToCalc('6')">6</div>
+                <div class="calculator-btn operator" onclick="appendToCalc('-')">-</div>
+                <div class="calculator-btn" onclick="appendToCalc('1')">1</div>
+                <div class="calculator-btn" onclick="appendToCalc('2')">2</div>
+                <div class="calculator-btn" onclick="appendToCalc('3')">3</div>
+                <div class="calculator-btn operator" onclick="appendToCalc('+')">+</div>
+                <div class="calculator-btn" onclick="appendToCalc('0')">0</div>
+                <div class="calculator-btn" onclick="appendToCalc('.')">.</div>
+                <div class="calculator-btn" onclick="backspaceCalc()">⌫</div>
+                <div class="calculator-btn equals" onclick="calculate()">=</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Media Player Window -->
+    <div class="window" id="mediaplayer-window">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-play-circle"></i>
+                <span>Holographic Media Player</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-control window-minimize" onclick="minimizeWindow('mediaplayer-window')">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-control window-maximize" onclick="maximizeWindow('mediaplayer-window')">
+                    <i class="fas fa-expand"></i>
+                </div>
+                <div class="window-control window-close" onclick="closeWindow('mediaplayer-window')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="mediaplayer">
+                <div class="mediaplayer-display">
+                    <div class="visualizer" id="visualizer">
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                        <div class="visualizer-bar"></div>
+                    </div>
+                </div>
+                <div class="mediaplayer-controls">
+                    <div class="mediaplayer-btn" onclick="playMedia()">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="mediaplayer-btn" onclick="pauseMedia()">
+                        <i class="fas fa-pause"></i>
+                    </div>
+                    <div class="mediaplayer-btn" onclick="stopMedia()">
+                        <i class="fas fa-stop"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Browser Window -->
+    <div class="window" id="browser-window">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fab fa-chrome"></i>
+                <span>Google Chrome</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-control window-minimize" onclick="minimizeWindow('browser-window')">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-control window-maximize" onclick="maximizeWindow('browser-window')">
+                    <i class="fas fa-expand"></i>
+                </div>
+                <div class="window-control window-close" onclick="closeWindow('browser-window')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="browser">
+                <div class="browser-nav">
+                    <div class="browser-btn" onclick="browserGoBack()">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div class="browser-btn" onclick="browserGoForward()">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="browser-btn" onclick="browserReload()">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <input type="text" class="browser-url" value="https://www.google.com" id="browser-url">
+                    <div class="browser-btn" onclick="browserGo()">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="browser-content">
+                    <iframe class="browser-iframe" id="browser-iframe" src="https://www.google.com/webhp?igu=1" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dashboard Window -->
+    <div class="window" id="dashboard-window">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-tasks"></i>
+                <span>To-Do List</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-control window-minimize" onclick="minimizeWindow('dashboard-window')">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-control window-maximize" onclick="maximizeWindow('dashboard-window')">
+                    <i class="fas fa-expand"></i>
+                </div>
+                <div class="window-control window-close" onclick="closeWindow('dashboard-window')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="dashboard">
+                <div class="dashboard-widget" style="grid-column: span 2;">
+                    <div class="widget-header">
+                        <i class="fas fa-tasks"></i>
+                        <h3>To-Do List</h3>
+                    </div>
+                    <div class="widget-content">
+                        <div class="todo-input-container">
+                            <input type="text" id="todo-input" placeholder="Add a new task...">
+                            <button id="add-todo-btn">Add</button>
+                        </div>
+                        <div class="todo-list" id="todo-list-container">
+                            <!-- Tasks will be dynamically added here -->
+                        </div>
+                        <div class="todo-actions">
+                            <button id="clear-completed-btn">Clear Completed</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- File Manager Window -->
+    <div class="window" id="filemanager-window">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-folder"></i>
+                <span>Quantum File Manager</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-control window-minimize" onclick="minimizeWindow('filemanager-window')">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-control window-maximize" onclick="maximizeWindow('filemanager-window')">
+                    <i class="fas fa-expand"></i>
+                </div>
+                <div class="window-control window-close" onclick="closeWindow('filemanager-window')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="filemanager" id="filemanager">
+                <div class="filemanager-nav">
+                    <div class="nav-btn" id="fm-back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div class="breadcrumbs" id="fm-breadcrumbs"></div>
+                </div>
+                <div class="filemanager-content" id="fm-content"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Window -->
+    <div class="window" id="settings-window">
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-cog"></i>
+                <span>System Settings</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-control window-minimize" onclick="minimizeWindow('settings-window')">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-control window-maximize" onclick="maximizeWindow('settings-window')">
+                    <i class="fas fa-expand"></i>
+                </div>
+                <div class="window-control window-close" onclick="closeWindow('settings-window')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="settings">
+                <div class="settings-category">
+                    <div class="settings-category-btn active">System</div>
+                    <div class="settings-category-btn">Appearance</div>
+                    <div class="settings-category-btn">Privacy</div>
+                    <div class="settings-category-btn">Network</div>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-section">
+                        <h3>Display</h3>
+                        <div class="setting-item">
+                            <span class="setting-label">Holographic Effects</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Neon Intensity</span>
+                            <div class="slider-container">
+                                <input type="range" min="1" max="10" value="7" class="slider" id="glow-slider">
+                                <div class="slider-value">Level 7</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Sounds</h3>
+                        <div class="setting-item">
+                            <span class="setting-label">UI Sounds</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Terminal Typing Sounds</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>System</h3>
+                            <span class="setting-label">Performance Mode</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">Auto Updates</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="OS_Script.js"></script>
+</body>
+</html>
